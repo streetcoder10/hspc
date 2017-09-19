@@ -1,0 +1,340 @@
+﻿<?php
+session_start();
+
+if(isset($_SESSION['usr_id'])!="") {
+	header("Location: index.php");
+}
+
+include_once 'dbconnect.php';
+
+//check if form is submitted
+if (isset($_POST['login'])) {
+
+	$email = mysqli_real_escape_string($con, $_POST['email']);
+	$password = mysqli_real_escape_string($con, $_POST['password']);
+	$result = mysqli_query($con, "SELECT * FROM users WHERE email = '" . $email. "' and password = '" . md5($password) . "'");
+
+	if ($row = mysqli_fetch_array($result)) {
+		$_SESSION['usr_id'] = $row['id'];
+		$_SESSION['usr_name'] = $row['fname'];
+		header("Location: teacherDashboard.php");
+	} else {
+		$errormsg = "Incorrect Email or Password!!!";
+	}
+}
+?>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/StyleSheet.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Marshall</title>
+	<style>
+          
+  .carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 70%;
+      margin: auto;
+  }
+  </style>
+</head>
+<body  style="font-family:verdana;">
+    <div class="topnav row">
+        
+        <div class="col-md-10">
+                  <a href="home.php"> <img src="images/marsahll logo.PNG"/></a>
+            </div>
+        <div class="col-md-2">
+            <ul class="nav navbar-nav" style="padding-top: 40px;">
+                <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                <li><a href="#"  data-toggle="modal" data-target="#myModal1"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+            </div>
+            
+        </div>
+       
+    <!--<nav class="navbar" style="background-color: #086435;border-color: #086435;margin-top: -1px;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar" style="background-color:white;"></span>
+                    <span class="icon-bar" style="background-color:white;"></span>
+                    <span class="icon-bar" style="background-color:white;"></span>
+                </button>
+               
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#" style="color:white;">Contest</a></li>
+                    <li>
+                        <a style="color:white;" href="#">Leaderboard</a></li>
+                    <li><a href="#" style="color:white;">About us</a></li>
+                    <li><a href="#" style="color:white;">Contact</a></li>
+                </ul>
+               
+            </div>
+        </div>
+    </nav>-->
+  <div class="row" style="background-color: #086435;border-color: #086435;">
+      
+          <div class="col-md-12">
+
+              <div class="col-md-3" style="border-right:solid;border-color:white;">
+                  <h2 style="text-align: center;"><a href="#" style="color:white;">Contest</a></h2>
+              </div>
+              <div class="col-md-3"  style="border-right:solid;border-color:white;">
+                  <h2 style="text-align: center;"><a href="#" style="color:white;"> Leaderboard </a></h2>
+              </div>
+              <div class="col-md-3"  style="border-right:solid;border-color:white;">
+                  <h2 style="text-align: center;"><a href="#" style="color:white;">About us</a></h2>
+              </div>
+              <div class="col-md-3">
+                  <h2 style="text-align: center;"><a href="#" style="color:white;">Contact</a></h2>
+              </div>
+
+          </div>
+      </div>
+    <div id="myModal1" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+  
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+
+            <div class="item active">
+
+                <img src="images/00.JPG" style="width:100%;height:300px;" />
+                
+            </div>
+
+            <div class="item">
+
+                <img src="images/01.JPG" style="width:100%;height:300px;" />
+               
+            </div>
+
+            <div class="item">
+
+                <img src="images/03.PNG" style="width:100%;height:300px;" />
+                
+            </div>
+
+            <div class="item">
+
+                <img src="images/05.JPG" style="width:100%;height:300px;" />
+               
+            </div>
+
+        </div>
+
+       
+    </div>
+    <div class="container" style="background-color:rgba(214, 214, 214, 0.13);margin-top:10px;">
+
+
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <h2 style="text-align:center;color:#383a39;">Description</h2>
+                <hr />
+                <div class="col-md-12">
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+
+
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+
+
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <h2 style="text-align:center;color:#383a39;">Announcements</h2>
+                <hr />
+
+                <marquee direction="up">
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+
+                    <p>
+                        One of West Virginia's first public institutions of higher education, Marshall University was founded as Marshall Academy in 1837 and named after Chief Justice of the Supreme Court John Marshall (1755-1835).
+                        The institution became Marshall College in 1858 and attained university status in 1961.
+                    </p>
+
+                </marquee>
+                <hr />
+                <h2 style="text-align:center;color:#383a39;">Calender</h2>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="span12">
+                            <table class="table-condensed table-bordered table-striped" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th colspan="7">
+                                            <span class="btn-group">
+                                                <a class="btn"><i class="icon-chevron-left"></i></a>
+                                                <a class="btn btn-success">February 2012</a>
+                                                <a class="btn"><i class="icon-chevron-right"></i></a>
+                                            </span>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Su</th>
+                                        <th>Mo</th>
+                                        <th>Tu</th>
+                                        <th>We</th>
+                                        <th>Th</th>
+                                        <th>Fr</th>
+                                        <th>Sa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="muted">29</td>
+                                        <td class="muted">30</td>
+                                        <td class="muted">31</td>
+                                        <td>1</td>
+                                        <td>2</td>
+                                        <td>3</td>
+                                        <td>4</td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>6</td>
+                                        <td>7</td>
+                                        <td>8</td>
+                                        <td>9</td>
+                                        <td>10</td>
+                                        <td>11</td>
+                                    </tr>
+                                    <tr>
+                                        <td>12</td>
+                                        <td>13</td>
+                                        <td>14</td>
+                                        <td>15</td>
+                                        <td>16</td>
+                                        <td>17</td>
+                                        <td>18</td>
+                                    </tr>
+                                    <tr>
+                                        <td>19</td>
+                                        <td class="btn-success"><strong>20</strong></td>
+                                        <td>21</td>
+                                        <td>22</td>
+                                        <td>23</td>
+                                        <td>24</td>
+                                        <td>25</td>
+                                    </tr>
+                                    <tr>
+                                        <td>26</td>
+                                        <td>27</td>
+                                        <td>28</td>
+                                        <td>29</td>
+                                        <td class="muted">1</td>
+                                        <td class="muted">2</td>
+                                        <td class="muted">3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="background-color:#101010;margin-top: 40px;">
+        <div class="copyright">
+            <div class="container">
+                <div class="col-md-12" style="padding-top: 4px;color:white;">
+                    <p style="text-align:center; ">© 2017 - All Rights with Marshall University</p>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+   
+   
+</body>
+</html>
